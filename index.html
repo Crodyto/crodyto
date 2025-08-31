@@ -229,12 +229,39 @@
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  
+  .product-card:hover::before {
+    opacity: 1;
   }
   
   .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .product-card:hover .product-image {
+    transform: scale(1.05);
+  }
+  
+  .product-card:active {
+    transform: translateY(-5px) scale(0.98);
   }
   
   .product-image {
@@ -242,6 +269,7 @@
     height: 200px;
     object-fit: cover;
     background: var(--light);
+    transition: transform 0.3s ease;
   }
   
   .product-info {
@@ -264,6 +292,8 @@
   .product-actions {
     display: flex;
     gap: 0.5rem;
+    position: relative;
+    z-index: 2;
   }
   
   /* Category Grid */
@@ -1135,6 +1165,19 @@
     </div>
   </div>
 
+  <!-- ✅ PRODUCT DETAILS MODAL -->
+  <div class="modal-backdrop" id="productDetailsModal">
+    <div class="modal" style="max-width: 700px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Product Details</h3>
+        <button class="close-btn" onclick="closeModal('productDetailsModal')">&times;</button>
+      </div>
+      <div class="modal-body" id="productDetailsContent">
+        <!-- Product details will be loaded here -->
+      </div>
+    </div>
+  </div>
+
   <!-- ✅ ENHANCED CHECKOUT MODAL WITH SMART PAYMENT -->
   <div class="modal-backdrop" id="checkoutModal">
     <div class="modal" style="max-width: 700px;">
@@ -1296,10 +1339,104 @@
 
     // Sample Products Data (Fallback)
     const sampleProducts = [
-      { id: '1', name: 'Wireless Headphones', price: 2999, category: 'electronics', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop', description: 'High-quality wireless headphones with noise cancellation.' },
-      { id: '2', name: 'Smart Watch', price: 15999, category: 'electronics', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop', description: 'Feature-rich smartwatch with health monitoring.' },
-      { id: '3', name: 'Bluetooth Speaker', price: 1299, category: 'electronics', image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=300&fit=crop', description: 'Portable Bluetooth speaker with excellent sound quality.' }
+      { id: '1', name: 'Wireless Headphones', price: 2999, category: 'electronics', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop', description: 'High-quality wireless headphones with advanced noise cancellation technology. Perfect for music lovers and professionals who demand crystal clear audio quality.' },
+      { id: '2', name: 'Smart Watch', price: 15999, category: 'electronics', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop', description: 'Feature-rich smartwatch with health monitoring, GPS tracking, and smartphone connectivity. Track your fitness goals and stay connected throughout the day.' },
+      { id: '3', name: 'Bluetooth Speaker', price: 1299, category: 'electronics', image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=300&fit=crop', description: 'Portable Bluetooth speaker with excellent sound quality and long battery life. Perfect for outdoor adventures and home entertainment.' }
     ];
+
+    // ✅ PRODUCT DETAILS MODAL FUNCTIONS
+    window.showProductDetails = (productId) => {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+      
+      // Create product details content
+      const content = `
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="${product.image}" 
+               alt="${product.name}" 
+               style="width: 100%; max-width: 400px; height: 300px; object-fit: cover; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);"
+               onerror="this.src='https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop'">
+        </div>
+        
+        <div style="text-align: center;">
+          <h2 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.8rem;">${product.name}</h2>
+          
+          <div style="background: linear-gradient(135deg, var(--success), #059669); 
+                      color: white; 
+                      padding: 12px 24px; 
+                      border-radius: 50px; 
+                      font-size: 1.5rem; 
+                      font-weight: bold; 
+                      margin-bottom: 1.5rem;
+                      display: inline-block;">
+            ₹${product.price.toLocaleString()}
+          </div>
+          
+          <div style="text-align: left; 
+                      background: var(--light); 
+                      padding: 1.5rem; 
+                      border-radius: 12px; 
+                      margin-bottom: 2rem;
+                      border: 1px solid var(--border);">
+            <h4 style="color: var(--primary); margin-bottom: 1rem;">📋 Description</h4>
+            <p style="color: var(--gray); line-height: 1.6; font-size: 1rem;">
+              ${product.description || 'No description available for this product.'}
+            </p>
+          </div>
+          
+          <div style="background: var(--light); 
+                      padding: 1.5rem; 
+                      border-radius: 12px; 
+                      margin-bottom: 2rem;
+                      border: 1px solid var(--border);">
+            <h4 style="color: var(--primary); margin-bottom: 1rem;">🏷️ Product Details</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; text-align: left;">
+              <div><strong>Category:</strong> ${product.category || 'N/A'}</div>
+              <div><strong>Product ID:</strong> ${product.id.slice(-6).toUpperCase()}</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <button class="btn btn-primary" 
+                    style="padding: 1rem 2rem; font-size: 1.1rem;"
+                    onclick="addToCart('${product.id}'); closeModal('productDetailsModal');">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+                <path d="M19 7h-3V6c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v1H5c-.6 0-1 .4-1 1s.4 1 1 1h1l1.7 8.5c.2.9 1 1.5 1.9 1.5h6.8c.9 0 1.7-.6 1.9-1.5L19 9h1c.6 0 1-.4 1-1s-.4-1-1-1zM10 6h4v1h-4V6z"/>
+              </svg>
+              Add to Cart
+            </button>
+            
+            <button class="btn btn-outline ${wishlist.includes(product.id) ? 'wishlist-active' : ''}" 
+                    style="padding: 1rem 2rem; font-size: 1.1rem;"
+                    onclick="toggleWishlist('${product.id}'); updateModalWishlistButton('${product.id}');">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+              ${wishlist.includes(product.id) ? 'Remove from Wishlist' : 'Add to Wishlist'}
+            </button>
+          </div>
+        </div>
+      `;
+      
+      // Set content and show modal
+      document.getElementById('productDetailsContent').innerHTML = content;
+      showModal('productDetailsModal');
+    };
+
+    // Update wishlist button in modal
+    window.updateModalWishlistButton = (productId) => {
+      // This will be called after toggling wishlist to update button text
+      const button = document.querySelector(`[onclick*="updateModalWishlistButton('${productId}')"]`);
+      if (button) {
+        if (wishlist.includes(productId)) {
+          button.classList.add('wishlist-active');
+          button.innerHTML = button.innerHTML.replace('Add to Wishlist', 'Remove from Wishlist');
+        } else {
+          button.classList.remove('wishlist-active');
+          button.innerHTML = button.innerHTML.replace('Remove from Wishlist', 'Add to Wishlist');
+        }
+      }
+    };
 
     // ✅ PAYMENT FUNCTIONS
     
@@ -1649,16 +1786,16 @@
       renderCategories();
     }
 
-    // Render Products
+    // ✅ UPDATED RENDER PRODUCTS WITH CLICK TO OPEN DETAILS
     function renderProducts(productsToRender) {
       const grid = document.getElementById('productGrid');
       grid.innerHTML = productsToRender.map(product => `
-        <div class="product-card">
+        <div class="product-card" style="cursor: pointer;" onclick="showProductDetails('${product.id}')">
           <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop'">
           <div class="product-info">
             <h3 class="product-title">${product.name}</h3>
             <p class="product-price">₹${product.price.toLocaleString()}</p>
-            <div class="product-actions">
+            <div class="product-actions" onclick="event.stopPropagation();">
               <button class="btn btn-primary" onclick="addToCart('${product.id}')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19 7h-3V6c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v1H5c-.6 0-1 .4-1 1s.4 1 1 1h1l1.7 8.5c.2.9 1 1.5 1.9 1.5h6.8c.9 0 1.7-.6 1.9-1.5L19 9h1c.6 0 1-.4 1-1s-.4-1-1-1zM10 6h4v1h-4V6z"/>
