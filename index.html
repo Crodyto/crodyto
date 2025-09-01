@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crodyto.com</title>
+<title>Crodyto - Complete E-commerce Platform</title>
 
 <!-- Confetti Library for celebration effect -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
@@ -386,38 +386,6 @@
     }
   }
   
-  /* Category Grid */
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin: 2rem 0;
-  }
-  
-  .category-card {
-    background: white;
-    border-radius: var(--radius);
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-  
-  .category-card:hover {
-    transform: scale(1.02);
-  }
-  
-  .category-image {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-  }
-  
-  .category-name {
-    padding: 1rem;
-    text-align: center;
-    font-weight: 600;
-  }
-  
   /* ✅ ORDER NOTIFICATION - CENTERED HALF SCREEN */
   .order-notification {
     position: fixed;
@@ -735,6 +703,57 @@
     padding: 1.5rem;
   }
   
+  /* ✅ ENHANCED PROFILE TABS WITH ICONS */
+  .profile-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+  
+  .profile-tab {
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--gray);
+    border-bottom: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    min-height: 44px;
+  }
+  
+  .profile-tab:hover {
+    color: var(--primary);
+    background: rgba(59, 130, 246, 0.05);
+  }
+  
+  .profile-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    background: rgba(59, 130, 246, 0.1);
+  }
+  
+  .profile-tab svg {
+    opacity: 0.7;
+  }
+  
+  .profile-tab.active svg {
+    opacity: 1;
+  }
+  
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
   /* Form Styles */
   .form-group {
     margin-bottom: 1rem;
@@ -908,44 +927,6 @@
     font-weight: 600;
   }
   
-  /* Profile Section */
-  .profile-section {
-    background: white;
-    border-radius: var(--radius);
-    padding: 2rem;
-    margin: 2rem 0;
-    box-shadow: var(--shadow);
-  }
-  
-  .profile-tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 2rem;
-  }
-  
-  .profile-tab {
-    padding: 1rem 1.5rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    color: var(--gray);
-    border-bottom: 2px solid transparent;
-  }
-  
-  .profile-tab.active {
-    color: var(--primary);
-    border-bottom-color: var(--primary);
-  }
-  
-  .tab-content {
-    display: none;
-  }
-  
-  .tab-content.active {
-    display: block;
-  }
-  
   /* Order History */
   .order-card {
     background: white;
@@ -1090,6 +1071,26 @@
       padding: 10px 0;
     }
     
+    /* ✅ RESPONSIVE PROFILE TABS FOR MOBILE */
+    .profile-tabs {
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    
+    .profile-tab {
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+      flex: 1;
+      justify-content: center;
+      text-align: center;
+    }
+    
+    .profile-tab svg {
+      width: 14px;
+      height: 14px;
+      margin-right: 4px;
+    }
+    
     /* Cart Drawer */
     .cart-drawer {
       width: 100vw;
@@ -1194,6 +1195,10 @@
       margin: 0.5rem;
       max-width: calc(100vw - 1rem);
     }
+    
+    .profile-tab svg {
+      display: none; /* Hide icons on very small screens */
+    }
   }
   
   /* ✅ TOUCH OPTIMIZATIONS */
@@ -1230,6 +1235,18 @@
     .quantity-btn {
       width: 40px;
       height: 40px;
+    }
+  }
+  
+  /* Animation for order cards */
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
   
@@ -1291,16 +1308,8 @@
     </div>
   </section>
 
-  <!-- Categories Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">Shop by Category</h2>
-      <div class="category-grid" id="categoryGrid">
-        <!-- Categories will be loaded here -->
-      </div>
-    </div>
-  </section>
-
+  <!-- ✅ SHOP BY CATEGORY SECTION REMOVED -->
+  
   <!-- Products Section -->
   <section class="section" id="products">
     <div class="container">
@@ -1384,7 +1393,7 @@
     </div>
   </div>
 
-  <!-- Profile Modal -->
+  <!-- ✅ UPDATED PROFILE MODAL WITH "MY ORDERS" -->
   <div class="modal-backdrop" id="profileModal">
     <div class="modal" style="max-width: 800px;">
       <div class="modal-header">
@@ -1393,9 +1402,24 @@
       </div>
       <div class="modal-body">
         <div class="profile-tabs">
-          <button class="profile-tab active" onclick="switchTab('profile')">Profile</button>
-          <button class="profile-tab" onclick="switchTab('orders')">Orders</button>
-          <button class="profile-tab" onclick="switchTab('wishlist')">Wishlist</button>
+          <button class="profile-tab active" onclick="switchTab('profile')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            Profile
+          </button>
+          <button class="profile-tab" onclick="switchTab('orders')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+            </svg>
+            My Orders
+          </button>
+          <button class="profile-tab" onclick="switchTab('wishlist')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            Wishlist
+          </button>
         </div>
         
         <div class="tab-content active" id="profileTab">
@@ -1429,12 +1453,20 @@
         </div>
         
         <div class="tab-content" id="ordersTab">
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <h3 style="color: var(--primary); margin-bottom: 0.5rem;">📦 My Orders</h3>
+            <p style="color: var(--gray);">Track and manage your order history</p>
+          </div>
           <div id="ordersContainer">
             <!-- Orders will be loaded here -->
           </div>
         </div>
         
         <div class="tab-content" id="wishlistTab">
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <h3 style="color: var(--primary); margin-bottom: 0.5rem;">💝 My Wishlist</h3>
+            <p style="color: var(--gray);">Items you saved for later</p>
+          </div>
           <div id="wishlistContainer">
             <!-- Wishlist items will be loaded here -->
           </div>
@@ -1607,12 +1639,6 @@
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
     let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     let products = [];
-    let categories = [
-      { id: 'electronics', name: 'Electronics', image: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=400&h=300&fit=crop' },
-      { id: 'clothing', name: 'Clothing', image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop' },
-      { id: 'books', name: 'Books', image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop' },
-      { id: 'home', name: 'Home & Garden', image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop' }
-    ];
     let isLogin = true;
 
     // ✅ SAMPLE PRODUCTS WITH MULTIPLE IMAGES
@@ -2256,7 +2282,7 @@
     // Initialize App
     document.addEventListener('DOMContentLoaded', () => {
       loadProducts();
-      loadCategories();
+      // ✅ REMOVED: loadCategories();
       updateCartUI();
       updateWishlistUI();
       initEventListeners();
@@ -2343,11 +2369,6 @@
       }
     }
 
-    // Load Categories
-    function loadCategories() {
-      renderCategories();
-    }
-
     // ✅ UPDATED RENDER PRODUCTS WITH CLICK TO OPEN DETAILS
     function renderProducts(productsToRender) {
       const grid = document.getElementById('productGrid');
@@ -2359,8 +2380,6 @@
             <p class="product-price">₹${product.price.toLocaleString()}</p>
             <div class="product-actions" onclick="event.stopPropagation();">
               <button class="btn btn-primary" onclick="addToCart('${product.id}')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19 7h-3V6c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v1H5c-.6 0-1 .4-1 1s.4 1 1 1h1l1.7 8.5c.2.9 1 1.5 1.9 1.5h6.8c.9 0 1.7-.6 1.9-1.5L19 9h1c.6 0 1-.4 1-1s-.4-1-1-1zM10 6h4v1h-4V6z"/>
                 </svg>
@@ -2377,23 +2396,9 @@
       `).join('');
     }
 
-    // Render Categories
-    function renderCategories() {
-      const grid = document.getElementById('categoryGrid');
-      grid.innerHTML = categories.map(category => `
-        <div class="category-card" onclick="filterByCategory('${category.id}')">
-          <img src="${category.image}" alt="${category.name}" class="category-image">
-          <div class="category-name">${category.name}</div>
-        </div>
-      `).join('');
-    }
-
-    // Filter Products by Category
-    window.filterByCategory = (categoryId) => {
-      const filteredProducts = products.filter(p => p.category === categoryId);
-      renderProducts(filteredProducts);
-      document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
-    };
+    // ✅ REMOVED CATEGORY-RELATED FUNCTIONS
+    // renderCategories() function removed
+    // filterByCategory() function removed - users can use search instead
 
     // Wishlist Functionality
     window.toggleWishlist = (productId) => {
@@ -2496,7 +2501,7 @@
     // Update Cart Quantity
     window.updateQuantity = (productId, change) => {
       const item = cart.find(item => item.id === productId);
-      if (!item) return;
+            if (!item) return;
 
       item.quantity += change;
       if (item.quantity <= 0) {
@@ -2720,12 +2725,17 @@
       }
     };
 
-    // Load User Orders
+    // ✅ ENHANCED LOAD USER ORDERS WITH BETTER UI
     async function loadUserOrders() {
       if (!currentUser) return;
       
       const container = document.getElementById('ordersContainer');
-      container.innerHTML = '<div class="text-center">Loading orders...</div>';
+      container.innerHTML = `
+        <div class="text-center" style="padding: 2rem;">
+          <div class="spinner" style="margin: 0 auto 1rem;"></div>
+          <p style="color: var(--gray);">Loading your orders...</p>
+        </div>
+      `;
       
       try {
         const ordersQuery = query(
@@ -2737,42 +2747,93 @@
         const ordersSnapshot = await getDocs(ordersQuery);
         
         if (ordersSnapshot.empty) {
-          container.innerHTML = '<div class="text-center" style="color: var(--gray);">No orders found</div>';
+          container.innerHTML = `
+            <div class="text-center" style="padding: 3rem; color: var(--gray);">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor" style="margin-bottom: 1rem; opacity: 0.3;">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+              <h3 style="margin-bottom: 0.5rem;">No Orders Yet</h3>
+              <p style="margin-bottom: 2rem;">You haven't placed any orders yet. Start shopping to see your orders here!</p>
+              <button class="btn btn-primary" onclick="closeModal('profileModal'); document.getElementById('products').scrollIntoView()">
+                🛍️ Start Shopping
+              </button>
+            </div>
+          `;
           return;
         }
         
         const orders = ordersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         
-        container.innerHTML = orders.map(order => `
-          <div class="order-card">
-            <div class="order-header">
-              <div class="order-id">Order #${order.id.slice(-8).toUpperCase()}</div>
-              <div class="order-status status-${order.status || 'pending'}">${order.status || 'pending'}</div>
-            </div>
-            <div class="mb-2">
-              <strong>Date:</strong> ${order.createdAt?.toDate?.()?.toLocaleDateString() || 'N/A'}
-            </div>
-            <div class="mb-2">
-              <strong>Total:</strong> ₹${order.total?.toLocaleString() || '0'}
-            </div>
-            <div class="mb-2">
-              <strong>Items:</strong> ${order.items?.length || 0}
-            </div>
-            <div class="mb-2">
-              <strong>Payment:</strong> ${order.paymentMethod || 'N/A'}
-            </div>
-            <div>
-              <button class="btn btn-ghost" onclick="copyOrderId('${order.id}')">Copy Order ID</button>
-              ${order.status === 'pending' ? `<button class="btn btn-outline" style="margin-left: 0.5rem; color: var(--danger);" onclick="cancelOrder('${order.id}')">Cancel Order</button>` : ''}
-            </div>
+        container.innerHTML = `
+          <div style="margin-bottom: 1rem;">
+            <p style="color: var(--gray); font-size: 0.9rem;">
+              ${orders.length} order${orders.length > 1 ? 's' : ''} found
+            </p>
           </div>
-        `).join('');
+          ${orders.map((order, index) => `
+            <div class="order-card" style="animation: slideUp 0.3s ease ${index * 0.1}s both;">
+              <div class="order-header">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--primary)">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                  </svg>
+                  <div class="order-id">Order #${order.id.slice(-8).toUpperCase()}</div>
+                </div>
+                <div class="order-status status-${order.status || 'pending'}">${order.status || 'pending'}</div>
+              </div>
+              
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                <div>
+                  <strong>📅 Order Date:</strong><br>
+                  <span style="color: var(--gray);">${order.createdAt?.toDate?.()?.toLocaleDateString() || 'N/A'}</span>
+                </div>
+                <div>
+                  <strong>💰 Total Amount:</strong><br>
+                  <span style="color: var(--success); font-weight: 600;">₹${order.total?.toLocaleString() || '0'}</span>
+                </div>
+                <div>
+                  <strong>📦 Items:</strong><br>
+                  <span style="color: var(--gray);">${order.items?.length || 0} item${(order.items?.length || 0) > 1 ? 's' : ''}</span>
+                </div>
+                <div>
+                  <strong>💳 Payment:</strong><br>
+                  <span style="color: var(--gray); text-transform: uppercase;">${order.paymentMethod || 'N/A'}</span>
+                </div>
+              </div>
+              
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; padding-top: 1rem; border-top: 1px solid var(--border);">
+                <button class="btn btn-ghost" onclick="copyOrderId('${order.id}')" style="font-size: 0.8rem;">
+                  📋 Copy Order ID
+                </button>
+                ${order.status === 'pending' ? `
+                  <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger); font-size: 0.8rem;" onclick="cancelOrder('${order.id}')">
+                    ❌ Cancel Order
+                  </button>
+                ` : ''}
+                <button class="btn btn-primary" style="font-size: 0.8rem;" onclick="showOrderDetails('${order.id}')">
+                  👁️ View Details
+                </button>
+              </div>
+            </div>
+          `).join('')}
+        `;
         
       } catch (error) {
         console.error('Error loading orders:', error);
-        container.innerHTML = '<div class="alert alert-error">Error loading orders. Please try again.</div>';
+        container.innerHTML = `
+          <div class="alert alert-error">
+            <strong>❌ Error loading orders</strong><br>
+            Please try again later or contact support if the problem persists.
+          </div>
+        `;
       }
     }
+
+    // ✅ SHOW ORDER DETAILS FUNCTION
+    window.showOrderDetails = (orderId) => {
+      showAlert('Order details feature will be available soon!', 'warning');
+      // You can implement detailed order view here
+    };
 
     // Copy Order ID
     window.copyOrderId = (orderId) => {
