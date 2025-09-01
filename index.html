@@ -8,6 +8,9 @@
 <!-- Confetti Library for celebration effect -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
+<!-- ✅ QR Code Library for UPI Payment -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <style>
   :root {
     --primary: #3b82f6;
@@ -428,7 +431,7 @@
     }
   }
   
-  /* ✅ ORDER STATUS TRACKING STYLES */
+  /* ✅ ORDER STATUS TRACKING STYLES WITH CANCELLED HANDLING */
   .order-status-bar {
     display: flex;
     list-style: none;
@@ -459,6 +462,11 @@
     font-weight: bold;
   }
 
+  /* ✅ CANCELLED STATUS STYLING */
+  .status-step.cancelled {
+    color: var(--danger) !important;
+  }
+
   .status-step::before {
     content: '';
     position: absolute;
@@ -484,8 +492,27 @@
     animation: pulse 2s infinite;
   }
 
+  /* ✅ CANCELLED STATUS CIRCLE */
+  .status-step.cancelled::before {
+    background: var(--danger) !important;
+    border-color: var(--danger) !important;
+  }
+
   .status-step.completed::after {
     content: '✓';
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 3;
+  }
+
+  /* ✅ CANCELLED STATUS CROSS MARK */
+  .status-step.cancelled::after {
+    content: '✗' !important;
     position: absolute;
     top: 2px;
     left: 50%;
@@ -522,6 +549,11 @@
 
   .order-status-bar.progress-100::before {
     background: var(--success);
+  }
+
+  /* ✅ CANCELLED ORDER PROGRESS LINE */
+  .order-status-bar.cancelled::before {
+    background: linear-gradient(to right, var(--success) 50%, var(--danger) 50%);
   }
 
   /* Order details section */
@@ -602,6 +634,43 @@
   .status-timestamp.active {
     color: var(--primary);
     font-weight: 600;
+  }
+
+  /* ✅ CANCELLED STATUS TIMESTAMP STYLING */
+  .status-timestamp.cancelled {
+    color: var(--danger);
+    font-weight: 600;
+  }
+
+  /* ✅ CANCELLATION INFO BOX */
+  .cancellation-info {
+    background: #fee2e2;
+    padding: 1rem;
+    border-radius: var(--radius);
+    margin: 1rem 0;
+    border: 1px solid #fecaca;
+  }
+
+  .cancellation-info h5 {
+    color: var(--danger);
+    margin-bottom: 0.5rem;
+  }
+
+  .cancellation-info p {
+    color: #991b1b;
+    font-size: 0.9rem;
+  }
+
+  .refund-status {
+    color: var(--success);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+
+  .refund-processing {
+    color: var(--warning);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
   }
 
   @keyframes slideDown {
@@ -779,7 +848,7 @@
     color: var(--gray);
   }
   
-  /* UPI Payment Form */
+  /* ✅ ENHANCED UPI PAYMENT FORM STYLES */
   .upi-form {
     display: none;
     padding: 16px;
@@ -798,18 +867,76 @@
     margin: 16px 0;
   }
   
+  /* ✅ ENHANCED UPI QR CODE STYLES */
   .qr-code {
-    width: 200px;
-    height: 200px;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     border: 2px solid var(--border);
     border-radius: var(--radius);
     background: white;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: var(--gray);
+    margin: 0 auto 1rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .qr-code canvas {
+    border-radius: 8px;
+    animation: qrFadeIn 0.5s ease;
+  }
+
+  .qr-code img {
+    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+    animation: qrFadeIn 0.5s ease;
+  }
+
+  /* QR Code Animation */
+  @keyframes qrFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Mobile UPI Button */
+  .upi-mobile-btn {
+    display: none;
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--success), #059669);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 1rem 0;
+    transition: all 0.3s ease;
+  }
+
+  .upi-mobile-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  }
+
+  /* UPI Payment Success Indicator */
+  .upi-success {
+    background: linear-gradient(135deg, var(--success), #059669);
+    color: white;
+    padding: 1rem;
+    border-radius: var(--radius);
+    text-align: center;
+    margin: 1rem 0;
+    animation: slideIn 0.3s ease;
   }
   
   /* Card Payment Form */
@@ -1216,6 +1343,11 @@
   
   /* ✅ ENHANCED MOBILE RESPONSIVE STYLES */
   @media (max-width: 768px) {
+    /* Show mobile UPI button only on mobile */
+    .upi-mobile-btn {
+      display: block;
+    }
+
     /* Navigation */
     .nav-container {
       flex-direction: column;
@@ -1666,7 +1798,7 @@
     </div>
   </div>
 
-  <!-- ✅ UPDATED PROFILE MODAL WITH "MY ORDERS" -->
+  <!-- ✅ UPDATED PROFILE MODAL WITH "MY ORDERS" AND CANCELLATION HANDLING -->
   <div class="modal-backdrop" id="profileModal">
     <div class="modal" style="max-width: 800px;">
       <div class="modal-header">
@@ -1761,7 +1893,7 @@
     </div>
   </div>
 
-  <!-- ✅ ENHANCED CHECKOUT MODAL WITH SMART PAYMENT -->
+  <!-- ✅ ENHANCED CHECKOUT MODAL WITH WORKING UPI QR CODE -->
   <div class="modal-backdrop" id="checkoutModal">
     <div class="modal" style="max-width: 700px;">
       <div class="modal-header">
@@ -1828,20 +1960,35 @@
             </div>
           </div>
           
-          <!-- UPI Payment Form -->
+          <!-- ✅ ENHANCED UPI PAYMENT FORM WITH WORKING QR CODE -->
           <div class="upi-form" id="upiForm">
-            <h5 style="margin-bottom: 1rem;">📱 UPI Payment Details</h5>
+            <h5 style="margin-bottom: 1rem; color: var(--success);">📱 UPI Payment</h5>
+            
             <div class="upi-qr">
               <div class="qr-code" id="qrCode">
-                <div>QR Code will appear here</div>
+                <div style="display: flex; flex-direction: column; align-items: center; padding: 2rem; color: var(--gray);">
+                  <div style="font-size: 2rem; margin-bottom: 1rem;">📱</div>
+                  <div>QR Code will appear here</div>
+                  <div style="font-size: 0.9rem; margin-top: 0.5rem;">Select UPI payment to generate</div>
+                </div>
               </div>
-              <p style="margin-top: 12px; font-size: 14px; color: var(--gray);">
-                Scan QR code with any UPI app
-              </p>
             </div>
-            <div style="text-align: center; margin: 16px 0;">
-              <strong>UPI ID:</strong> crodyto@upi<br>
-              <strong>Amount:</strong> ₹<span id="upiAmount">0</span>
+            
+            <div style="text-align: center; margin: 16px 0; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 8px;">
+              <div style="font-weight: bold; color: var(--success); margin-bottom: 0.5rem;">
+                💰 Payment Details
+              </div>
+              <div><strong>UPI ID:</strong> dipamg13-1@oksbi</div>
+              <div><strong>Merchant:</strong> Crodyto</div>
+              <div><strong>Amount:</strong> ₹<span id="upiAmount">0</span></div>
+            </div>
+            
+            <div style="background: rgba(59, 130, 246, 0.1); padding: 1rem; border-radius: 8px; font-size: 0.9rem; color: var(--primary);">
+              <div style="font-weight: bold; margin-bottom: 0.5rem;">📋 How to Pay:</div>
+              <div>1. Scan QR code with any UPI app</div>
+              <div>2. Or click the payment link on mobile</div>
+              <div>3. Verify amount and complete payment</div>
+              <div>4. Return here after payment</div>
             </div>
           </div>
           
@@ -2291,23 +2438,83 @@
       }
     }
 
-    // ✅ PAYMENT FUNCTIONS
-    
-    // UPI Payment Function
-    function initiateUPIPayment(amount, upiId = 'crodyto@upi', name = 'Crodyto', note = 'Order Payment') {
+    // ✅ WORKING UPI PAYMENT FUNCTION WITH QR CODE
+    function initiateUPIPayment(amount, upiId = 'dipamg13-1@oksbi', name = 'Crodyto', note = 'Order Payment') {
+      // Generate UPI URL
       const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(name)}&am=${encodeURIComponent(amount)}&tn=${encodeURIComponent(note)}&cu=INR`;
       
-      // Try to open UPI app
+      // Generate QR Code for UPI payment
+          generateUPIQRCode(upiUrl, amount, upiId, name);
+      
+      // Try to open UPI app for mobile users
+      if (isMobile()) {
+        try {
+          window.location.href = upiUrl;
+        } catch (error) {
+          console.log('UPI app not available, using QR code');
+        }
+      }
+    }
+
+    // ✅ GENERATE UPI QR CODE FUNCTION
+    function generateUPIQRCode(upiUrl, amount, upiId, name) {
+      const qrContainer = document.getElementById('qrCode');
+      
+      // Clear existing QR code
+      qrContainer.innerHTML = '';
+      
+      // Create QR code
       try {
-        window.location.href = upiUrl;
+        new QRCode(qrContainer, {
+          text: upiUrl,
+          width: 200,
+          height: 200,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+        
+        // Add styling to QR container
+        qrContainer.style.cssText = `
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 1rem;
+          background: white;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        `;
+        
+        // Add UPI details below QR
+        setTimeout(() => {
+          const detailsDiv = document.createElement('div');
+          detailsDiv.innerHTML = `
+            <div style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--gray);">
+              <div style="font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">
+                💳 Scan & Pay ₹${amount.toLocaleString()}
+              </div>
+              <div><strong>UPI ID:</strong> ${upiId}</div>
+              <div><strong>Merchant:</strong> ${name}</div>
+              <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--success);">
+                📱 Works with all UPI apps
+              </div>
+            </div>
+          `;
+          qrContainer.appendChild(detailsDiv);
+        }, 100);
+        
       } catch (error) {
-        // Fallback for browsers that don't support UPI deep linking
-        const tempLink = document.createElement('a');
-        tempLink.href = upiUrl;
-        tempLink.style.display = 'none';
-        document.body.appendChild(tempLink);
-        tempLink.click();
-        document.body.removeChild(tempLink);
+        console.error('Error generating QR code:', error);
+        qrContainer.innerHTML = `
+          <div style="text-align: center; padding: 2rem; color: var(--danger);">
+            <div style="font-size: 2rem; margin-bottom: 1rem;">⚠️</div>
+            <div>Unable to generate QR code</div>
+            <div style="font-size: 0.9rem; margin-top: 0.5rem;">
+              UPI ID: ${upiId}<br>
+              Amount: ₹${amount.toLocaleString()}
+            </div>
+          </div>
+        `;
       }
     }
     
@@ -2464,7 +2671,7 @@
       showAlert(message, 'error');
     }
     
-    // Payment Method Selection
+    // ✅ UPDATED PAYMENT METHOD SELECTION FUNCTION
     window.selectPaymentMethod = (method) => {
       // Update radio button
       document.getElementById(method).checked = true;
@@ -2487,19 +2694,20 @@
       
       button.innerHTML = buttonTexts[method];
       
-      // Update UPI amount if UPI selected
+      // ✅ GENERATE UPI QR CODE WHEN UPI IS SELECTED
       if (method === 'upi') {
         const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        document.getElementById('upiAmount').textContent = total;
+        document.getElementById('upiAmount').textContent = total.toLocaleString();
         
-        // Generate QR code placeholder
-        document.getElementById('qrCode').innerHTML = `
-          <div style="font-size: 12px; line-height: 1.4;">
-            <strong>Scan to Pay</strong><br>
-            ₹${total}<br>
-            <small>crodyto@upi</small>
-          </div>
-        `;
+        // Generate working QR code
+        const upiId = 'dipamg13-1@oksbi';
+        const merchantName = 'Crodyto';
+        const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(merchantName)}&am=${encodeURIComponent(total)}&tn=${encodeURIComponent('Crodyto Order Payment')}&cu=INR`;
+        
+        // Generate QR code
+        setTimeout(() => {
+          generateUPIQRCode(upiUrl, total, upiId, merchantName);
+        }, 100);
       }
     };
 
@@ -2717,7 +2925,7 @@
         return;
       }
 
-            const wishlistProducts = products.filter(p => wishlist.includes(p.id));
+      const wishlistProducts = products.filter(p => wishlist.includes(p.id));
       
       container.innerHTML = `
         <div class="wishlist-grid">
@@ -3044,7 +3252,7 @@
       }
     }
 
-    // ✅ ENHANCED ORDER RENDERING WITH STATUS TRACKING
+    // ✅ ENHANCED ORDER RENDERING WITH CANCELLED STATUS HANDLING
     function renderOrdersWithTracking(orders) {
       const container = document.getElementById('ordersContainer');
       
@@ -3055,37 +3263,65 @@
           </p>
         </div>
         ${orders.map((order, index) => {
-          const statusSteps = [
-            { name: 'Order Placed', key: 'placed', icon: '📋' },
-            { name: 'Order Shipped', key: 'shipped', icon: '📦' },
-            { name: 'Out for Delivery', key: 'outForDelivery', icon: '🚚' },
-            { name: 'Delivered', key: 'delivered', icon: '✅' }
-          ];
+          // ✅ HANDLE CANCELLED ORDERS DIFFERENTLY
+          const isCancelled = order.status === 'cancelled';
           
-          // Determine current status index
-          let currentStatusIndex = 0;
-          if (order.status === 'shipped') currentStatusIndex = 1;
-          else if (order.status === 'out_for_delivery') currentStatusIndex = 2;
-          else if (order.status === 'delivered') currentStatusIndex = 3;
+          let statusSteps, currentStatusIndex, progressClass;
           
-          const progressClass = `progress-${(currentStatusIndex + 1) * 25}`;
+          if (isCancelled) {
+            // For cancelled orders: Only show Order Placed (green tick) and Cancelled (red cross)
+            statusSteps = [
+              { name: 'Order Placed', key: 'placed', icon: '📋' },
+              { name: 'Order Cancelled', key: 'cancelled', icon: '❌' }
+            ];
+            currentStatusIndex = 1; // Cancelled is the final status
+            progressClass = 'cancelled';
+          } else {
+            // For normal orders: Show all 4 steps
+            statusSteps = [
+              { name: 'Order Placed', key: 'placed', icon: '📋' },
+              { name: 'Order Shipped', key: 'shipped', icon: '📦' },
+              { name: 'Out for Delivery', key: 'outForDelivery', icon: '🚚' },
+              { name: 'Delivered', key: 'delivered', icon: '✅' }
+            ];
+            
+            // Determine current status index for normal orders
+            if (order.status === 'shipped') currentStatusIndex = 1;
+            else if (order.status === 'out_for_delivery') currentStatusIndex = 2;
+            else if (order.status === 'delivered') currentStatusIndex = 3;
+            else currentStatusIndex = 0; // placed
+            
+            progressClass = `progress-${(currentStatusIndex + 1) * 25}`;
+          }
           
           // Generate status timeline
           const statusTimeline = statusSteps.map((step, stepIndex) => {
             let statusClass = '';
             let timestamp = '';
             
-            if (stepIndex < currentStatusIndex) {
-              statusClass = 'completed';
-            } else if (stepIndex === currentStatusIndex) {
-              statusClass = 'active';
-            }
-            
-            // Generate mock timestamps (you can replace with real data from Firebase)
-            if (stepIndex <= currentStatusIndex) {
-              const orderDate = order.createdAt?.toDate?.() || new Date();
-              const statusDate = new Date(orderDate.getTime() + (stepIndex * 24 * 60 * 60 * 1000)); // Add days
-              timestamp = statusDate.toLocaleDateString() + ' ' + statusDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            if (isCancelled) {
+              if (stepIndex === 0) {
+                statusClass = 'completed'; // Order Placed gets green tick
+                const orderDate = order.createdAt?.toDate?.() || new Date();
+                timestamp = orderDate.toLocaleDateString() + ' ' + orderDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+              } else if (stepIndex === 1) {
+                statusClass = 'cancelled'; // Order Cancelled gets red cross
+                const cancelledDate = order.cancelledAt?.toDate?.() || new Date();
+                timestamp = cancelledDate.toLocaleDateString() + ' ' + cancelledDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+              }
+            } else {
+              if (stepIndex < currentStatusIndex) {
+                statusClass = 'completed';
+              } else if (stepIndex === currentStatusIndex) {
+                statusClass = 'active';
+              }
+              
+              // Generate mock timestamps for normal orders
+              if (stepIndex <= currentStatusIndex) {
+                const orderDate = order.createdAt?.toDate?.() || new Date();
+                const statusDate = new Date(orderDate.getTime() + (stepIndex * 24 * 60 * 60 * 1000));
+                timestamp = statusDate.toLocaleDateString() + ' ' + statusDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+              }
             }
             
             return `
@@ -3121,7 +3357,7 @@
                   </svg>
                   <div class="order-id">Order #${order.id.slice(-8).toUpperCase()}</div>
                 </div>
-                <div class="order-status status-${order.status || 'pending'}">${order.status || 'pending'}</div>
+                <div class="order-status status-${order.status || 'pending'}" style="${isCancelled ? 'background: #fee2e2; color: #991b1b;' : ''}">${order.status || 'pending'}</div>
               </div>
               
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
@@ -3147,7 +3383,7 @@
                 <button class="btn btn-ghost" onclick="copyOrderId('${order.id}')" style="font-size: 0.8rem;">
                   📋 Copy Order ID
                 </button>
-                ${order.status === 'pending' || order.status === 'placed' ? `
+                ${!isCancelled && (order.status === 'pending' || order.status === 'placed') ? `
                   <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger); font-size: 0.8rem;" onclick="cancelOrder('${order.id}')">
                     ❌ Cancel Order
                   </button>
@@ -3157,18 +3393,29 @@
                 </button>
               </div>
               
-              <!-- ✅ DETAILED ORDER TRACKING SECTION -->
+              <!-- ✅ DETAILED ORDER TRACKING SECTION WITH CANCELLED HANDLING -->
               <div class="order-details" id="details-${order.id}">
                 <h4 style="color: var(--primary); margin-bottom: 1rem;">📋 Order Tracking</h4>
                 
                 <!-- Status Progress Bar -->
                 <ul class="order-status-bar ${progressClass}">
-                  ${statusSteps.map((step, stepIndex) => `
-                    <li class="status-step ${stepIndex < currentStatusIndex ? 'completed' : stepIndex === currentStatusIndex ? 'active' : ''}">
-                      <span style="display: block; margin-top: 25px;">${step.icon}</span>
-                      <span style="display: block; margin-top: 5px; font-size: 0.8rem;">${step.name}</span>
-                    </li>
-                  `).join('')}
+                  ${statusSteps.map((step, stepIndex) => {
+                    let stepClass = '';
+                    if (isCancelled) {
+                      if (stepIndex === 0) stepClass = 'completed'; // Order Placed - green tick
+                      else if (stepIndex === 1) stepClass = 'cancelled'; // Order Cancelled - red cross
+                    } else {
+                      if (stepIndex < currentStatusIndex) stepClass = 'completed';
+                      else if (stepIndex === currentStatusIndex) stepClass = 'active';
+                    }
+                    
+                    return `
+                      <li class="status-step ${stepClass}">
+                        <span style="display: block; margin-top: 25px;">${step.icon}</span>
+                        <span style="display: block; margin-top: 5px; font-size: 0.8rem;">${step.name}</span>
+                      </li>
+                    `;
+                  }).join('')}
                 </ul>
                 
                 <!-- Status Timeline -->
@@ -3176,6 +3423,19 @@
                   <h5 style="color: var(--primary); margin-bottom: 1rem;">📅 Order Timeline</h5>
                   ${statusTimeline}
                 </div>
+                
+                <!-- Cancellation Reason (if cancelled) -->
+                ${isCancelled ? `
+                  <div class="cancellation-info">
+                    <h5>❌ Order Cancellation</h5>
+                    <p>This order has been cancelled. ${order.cancellationReason || 'If you have any questions, please contact our support team.'}</p>
+                    ${order.paymentStatus === 'refunded' ? `
+                      <p class="refund-status">✅ Refund has been processed and will appear in your account within 3-5 business days.</p>
+                    ` : order.paymentMethod !== 'cod' ? `
+                      <p class="refund-processing">⏳ Refund is being processed and will appear in your account within 3-5 business days.</p>
+                    ` : ''}
+                  </div>
+                ` : ''}
                 
                 <!-- Order Items -->
                 <div class="order-items-list">
@@ -3185,10 +3445,11 @@
                 
                 <!-- Shipping Information -->
                 <div style="background: white; padding: 1rem; border-radius: var(--radius); border: 1px solid var(--border);">
-                  <h5 style="color: var(--primary); margin-bottom: 1rem;">🚚 Shipping Information</h5>
+                  <h5 style="color: var(--primary); margin-bottom: 1rem;">🚚 ${isCancelled ? 'Order' : 'Shipping'} Information</h5>
                   <div><strong>Address:</strong> ${order.address || 'N/A'}</div>
                   <div><strong>Phone:</strong> ${order.phone || 'N/A'}</div>
                   <div><strong>Payment Method:</strong> ${order.paymentMethod?.toUpperCase() || 'N/A'}</div>
+                  ${isCancelled ? `<div style="margin-top: 0.5rem;"><strong>Cancelled On:</strong> ${order.cancelledAt?.toDate?.()?.toLocaleDateString() || 'N/A'}</div>` : ''}
                 </div>
               </div>
             </div>
@@ -3267,7 +3528,7 @@
       showModal('checkoutModal');
     };
 
-    // ✅ ENHANCED CHECKOUT WITH SMART PAYMENT LOGIC
+    // ✅ ENHANCED CHECKOUT WITH SMART PAYMENT LOGIC AND WORKING UPI QR
     document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       
@@ -3277,48 +3538,73 @@
       
       // Handle different payment methods
       if (paymentMethod === 'upi') {
-        // For UPI - initiate payment first, then auto place order
         const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         
         // Hide place order button for UPI
         const button = document.getElementById('placeOrderBtn');
         button.style.display = 'none';
         
-        // Add "Processing payment..." message
+        // Add mobile payment button for easier access
+        const mobileBtn = document.createElement('button');
+        mobileBtn.className = 'upi-mobile-btn';
+        mobileBtn.innerHTML = '📱 Open UPI App & Pay ₹' + total.toLocaleString();
+        mobileBtn.onclick = () => {
+          const upiUrl = `upi://pay?pa=dipamg13-1%40oksbi&pn=Crodyto&am=${total}&tn=Crodyto%20Order%20Payment&cu=INR`;
+          window.location.href = upiUrl;
+        };
+        button.parentNode.insertBefore(mobileBtn, button);
+        
+        // Add processing message
         const processingDiv = document.createElement('div');
         processingDiv.id = 'processing-message';
         processingDiv.innerHTML = `
-          <div style="text-align: center; padding: 20px; color: var(--primary);">
-            <div style="font-size: 1.2rem; margin-bottom: 10px;">📱 Processing UPI Payment...</div>
-            <div style="font-size: 0.9rem; color: var(--gray);">Complete payment in UPI app and return here</div>
+          <div style="text-align: center; padding: 20px; color: var(--success);">
+            <div style="font-size: 1.3rem; margin-bottom: 10px;">📱 UPI Payment Ready!</div>
+            <div style="font-size: 1rem; color: var(--gray); margin-bottom: 1rem;">
+              Scan QR code or click "Open UPI App" button
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+              <div style="padding: 0.5rem 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 20px; font-size: 0.9rem;">
+                💰 ₹${total.toLocaleString()}
+              </div>
+              <div style="padding: 0.5rem 1rem; background: rgba(59, 130, 246, 0.1); border-radius: 20px; font-size: 0.9rem;">
+                📱 dipamg13-1@oksbi
+              </div>
+            </div>
           </div>
         `;
         button.parentNode.appendChild(processingDiv);
         
-        // Show UPI redirect message
-        showAlert('Redirecting to UPI payment...', 'warning');
-        
         // Initiate UPI payment
-        initiateUPIPayment(total);
+        initiateUPIPayment(total, 'dipamg13-1@oksbi', 'Crodyto', 'Crodyto Order Payment');
         
-        // Simulate payment confirmation after delay
+        // Enhanced payment confirmation
         setTimeout(() => {
-          const confirmed = confirm('Have you completed the UPI payment?\n\nClick OK if payment is successful, Cancel if payment was cancelled/failed.');
+          const confirmed = confirm(
+            '💳 UPI Payment Status\n\n' +
+            '✅ Have you completed the UPI payment?\n' +
+            '💰 Amount: ₹' + total.toLocaleString() + '\n' +
+            '📱 UPI ID: dipamg13-1@oksbi\n\n' +
+            'Click OK if payment is successful\n' +
+            'Click Cancel if payment failed/cancelled'
+          );
           
+          // Clean up UI elements
           document.getElementById('processing-message')?.remove();
+          document.querySelector('.upi-mobile-btn')?.remove();
           
           if (confirmed) {
-            // ✅ Payment successful - automatically place order
-            showAlert('UPI payment completed successfully!', 'success');
+            // ✅ Payment successful
+            showAlert('🎉 UPI payment completed successfully!', 'success');
             placeOrderAfterPayment('upi');
           } else {
-            // ❌ Payment cancelled - show red error notification
+            // ❌ Payment cancelled
             button.style.display = 'block';
             showPaymentCancelledNotification('UPI payment was cancelled or failed');
           }
-        }, 3000);
+        }, 4000);
         
-        return; // Don't proceed with normal form submission
+        return;
         
       } else if (paymentMethod === 'card') {
         // For Card - validate and process payment first
