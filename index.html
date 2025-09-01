@@ -173,30 +173,72 @@
     cursor: pointer;
   }
   
-  /* Banner Section */
+  /* ✅ Enhanced Hero Banner with Background Image */
   .hero-banner {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(rgba(59, 130, 246, 0.7), rgba(30, 64, 175, 0.8)), 
+                url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1920&h=1080&fit=crop&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: white;
-    padding: 4rem 0;
+    padding: 6rem 0;
     text-align: center;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
+  /* Ensure text is above the background */
   .hero-content {
+    position: relative;
+    z-index: 2;
     max-width: 800px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 2rem;
   }
   
   .hero-content h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
     font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 1s ease-out;
   }
   
   .hero-content p {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
-    opacity: 0.9;
+    font-size: 1.4rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 1s ease-out 0.3s both;
+  }
+  
+  .hero-content .btn {
+    animation: fadeInUp 1s ease-out 0.6s both;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .hero-content .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* ✅ Animation Keyframes */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   
   /* Main Content */
@@ -383,6 +425,207 @@
     to {
       opacity: 1;
       transform: translateX(0);
+    }
+  }
+  
+  /* ✅ ORDER STATUS TRACKING STYLES */
+  .order-status-bar {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .status-step {
+    flex: 1;
+    text-align: center;
+    padding: 15px 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--gray);
+    position: relative;
+    background: white;
+    z-index: 2;
+  }
+
+  .status-step.completed {
+    color: var(--success);
+  }
+
+  .status-step.active {
+    color: var(--primary);
+    font-weight: bold;
+  }
+
+  .status-step::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    border: 3px solid #e5e7eb;
+    z-index: 1;
+  }
+
+  .status-step.completed::before {
+    background: var(--success);
+    border-color: var(--success);
+  }
+
+  .status-step.active::before {
+    background: var(--primary);
+    border-color: var(--primary);
+    animation: pulse 2s infinite;
+  }
+
+  .status-step.completed::after {
+    content: '✓';
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 3;
+  }
+
+  /* Progress line between steps */
+  .order-status-bar::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10%;
+    right: 10%;
+    height: 3px;
+    background: #e5e7eb;
+    z-index: 0;
+  }
+
+  .order-status-bar.progress-25::before {
+    background: linear-gradient(to right, var(--success) 25%, #e5e7eb 25%);
+  }
+
+  .order-status-bar.progress-50::before {
+    background: linear-gradient(to right, var(--success) 50%, #e5e7eb 50%);
+  }
+
+  .order-status-bar.progress-75::before {
+    background: linear-gradient(to right, var(--success) 75%, #e5e7eb 75%);
+  }
+
+  .order-status-bar.progress-100::before {
+    background: var(--success);
+  }
+
+  /* Order details section */
+  .order-details {
+    padding: 1.5rem;
+    background: var(--light);
+    border-radius: var(--radius);
+    margin-top: 1rem;
+    border: 1px solid var(--border);
+    display: none;
+    animation: slideDown 0.3s ease-in-out;
+  }
+
+  .order-details.show {
+    display: block;
+  }
+
+  .order-items-list {
+    background: white;
+    padding: 1rem;
+    border-radius: var(--radius);
+    margin: 1rem 0;
+    border: 1px solid var(--border);
+  }
+
+  .order-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .order-item:last-child {
+    border-bottom: none;
+  }
+
+  .order-item-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    margin-right: 1rem;
+    object-fit: cover;
+  }
+
+  .order-item-info {
+    flex: 1;
+  }
+
+  .order-item-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .order-item-price {
+    color: var(--gray);
+    font-size: 0.8rem;
+  }
+
+  .status-timestamp {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+    color: var(--gray);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .status-timestamp:last-child {
+    border-bottom: none;
+  }
+
+  .status-timestamp.completed {
+    color: var(--success);
+    font-weight: 600;
+  }
+
+  .status-timestamp.active {
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      max-height: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      max-height: 500px;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
     }
   }
   
@@ -994,17 +1237,23 @@
       font-size: 1.5rem;
     }
     
-    /* Hero Banner */
+    /* ✅ Mobile Responsive for Hero Banner */
+    .hero-banner {
+      min-height: 80vh;
+      padding: 4rem 0;
+      background-attachment: scroll; /* Better performance on mobile */
+    }
+    
     .hero-content h1 {
-      font-size: 2rem;
+      font-size: 2.5rem;
     }
     
     .hero-content p {
-      font-size: 1rem;
+      font-size: 1.1rem;
     }
     
-    .hero-banner {
-      padding: 2rem 0;
+    .hero-content {
+      padding: 0 1rem;
     }
     
     /* Product Grid */
@@ -1156,12 +1405,35 @@
     .container {
       padding: 0 0.5rem;
     }
+
+    /* Mobile responsive for order status tracking */
+    .status-step {
+      font-size: 0.75rem;
+      padding: 10px 2px;
+    }
+    
+    .order-details {
+      padding: 1rem;
+    }
+    
+    .order-status-bar::before {
+      left: 5%;
+      right: 5%;
+    }
   }
   
   /* ✅ EXTRA SMALL MOBILE DEVICES */
   @media (max-width: 480px) {
+    .hero-banner {
+      min-height: 70vh;
+    }
+    
     .hero-content h1 {
-      font-size: 1.5rem;
+      font-size: 2rem;
+    }
+    
+    .hero-content p {
+      font-size: 1rem;
     }
     
     .product-grid {
@@ -1297,18 +1569,19 @@
     </div>
   </header>
 
-  <!-- Hero Banner -->
+  <!-- ✅ Enhanced Hero Banner with Background Image -->
   <section class="hero-banner">
     <div class="hero-content">
       <h1>Welcome to Crodyto</h1>
       <p>Discover amazing products at unbeatable prices</p>
-      <button class="btn btn-primary" onclick="document.getElementById('products').scrollIntoView()">
+      <button class="btn btn-primary" onclick="document.getElementById('products').scrollIntoView({ behavior: 'smooth' })">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+          <path d="M7 14l5-5 5 5z"/>
+        </svg>
         Shop Now
       </button>
     </div>
   </section>
-
-  <!-- ✅ SHOP BY CATEGORY SECTION REMOVED -->
   
   <!-- Products Section -->
   <section class="section" id="products">
@@ -2083,7 +2356,7 @@
         paymentStatus: paymentMethod === 'cod' ? 'pending' : 'completed',
         items: cart,
         total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-        status: 'pending',
+        status: 'placed',
         createdAt: serverTimestamp()
       };
       
@@ -2282,7 +2555,6 @@
     // Initialize App
     document.addEventListener('DOMContentLoaded', () => {
       loadProducts();
-      // ✅ REMOVED: loadCategories();
       updateCartUI();
       updateWishlistUI();
       initEventListeners();
@@ -2396,10 +2668,6 @@
       `).join('');
     }
 
-    // ✅ REMOVED CATEGORY-RELATED FUNCTIONS
-    // renderCategories() function removed
-    // filterByCategory() function removed - users can use search instead
-
     // Wishlist Functionality
     window.toggleWishlist = (productId) => {
       const product = products.find(p => p.id === productId);
@@ -2449,7 +2717,7 @@
         return;
       }
 
-      const wishlistProducts = products.filter(p => wishlist.includes(p.id));
+            const wishlistProducts = products.filter(p => wishlist.includes(p.id));
       
       container.innerHTML = `
         <div class="wishlist-grid">
@@ -2501,7 +2769,7 @@
     // Update Cart Quantity
     window.updateQuantity = (productId, change) => {
       const item = cart.find(item => item.id === productId);
-            if (!item) return;
+      if (!item) return;
 
       item.quantity += change;
       if (item.quantity <= 0) {
@@ -2725,7 +2993,7 @@
       }
     };
 
-    // ✅ ENHANCED LOAD USER ORDERS WITH BETTER UI
+    // ✅ ENHANCED LOAD USER ORDERS WITH DETAILED STATUS TRACKING
     async function loadUserOrders() {
       if (!currentUser) return;
       
@@ -2763,15 +3031,89 @@
         }
         
         const orders = ordersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        renderOrdersWithTracking(orders);
         
+      } catch (error) {
+        console.error('Error loading orders:', error);
         container.innerHTML = `
-          <div style="margin-bottom: 1rem;">
-            <p style="color: var(--gray); font-size: 0.9rem;">
-              ${orders.length} order${orders.length > 1 ? 's' : ''} found
-            </p>
+          <div class="alert alert-error">
+            <strong>❌ Error loading orders</strong><br>
+            Please try again later or contact support if the problem persists.
           </div>
-          ${orders.map((order, index) => `
-            <div class="order-card" style="animation: slideUp 0.3s ease ${index * 0.1}s both;">
+        `;
+      }
+    }
+
+    // ✅ ENHANCED ORDER RENDERING WITH STATUS TRACKING
+    function renderOrdersWithTracking(orders) {
+      const container = document.getElementById('ordersContainer');
+      
+      container.innerHTML = `
+        <div style="margin-bottom: 1rem;">
+          <p style="color: var(--gray); font-size: 0.9rem;">
+            ${orders.length} order${orders.length > 1 ? 's' : ''} found
+          </p>
+        </div>
+        ${orders.map((order, index) => {
+          const statusSteps = [
+            { name: 'Order Placed', key: 'placed', icon: '📋' },
+            { name: 'Order Shipped', key: 'shipped', icon: '📦' },
+            { name: 'Out for Delivery', key: 'outForDelivery', icon: '🚚' },
+            { name: 'Delivered', key: 'delivered', icon: '✅' }
+          ];
+          
+          // Determine current status index
+          let currentStatusIndex = 0;
+          if (order.status === 'shipped') currentStatusIndex = 1;
+          else if (order.status === 'out_for_delivery') currentStatusIndex = 2;
+          else if (order.status === 'delivered') currentStatusIndex = 3;
+          
+          const progressClass = `progress-${(currentStatusIndex + 1) * 25}`;
+          
+          // Generate status timeline
+          const statusTimeline = statusSteps.map((step, stepIndex) => {
+            let statusClass = '';
+            let timestamp = '';
+            
+            if (stepIndex < currentStatusIndex) {
+              statusClass = 'completed';
+            } else if (stepIndex === currentStatusIndex) {
+              statusClass = 'active';
+            }
+            
+            // Generate mock timestamps (you can replace with real data from Firebase)
+            if (stepIndex <= currentStatusIndex) {
+              const orderDate = order.createdAt?.toDate?.() || new Date();
+              const statusDate = new Date(orderDate.getTime() + (stepIndex * 24 * 60 * 60 * 1000)); // Add days
+              timestamp = statusDate.toLocaleDateString() + ' ' + statusDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            }
+            
+            return `
+              <div class="status-timestamp ${statusClass}">
+                <div>
+                  <span style="margin-right: 8px;">${step.icon}</span>
+                  <strong>${step.name}</strong>
+                </div>
+                <div>${timestamp}</div>
+              </div>
+            `;
+          }).join('');
+          
+          // Generate order items list
+          const orderItemsList = order.items?.map(item => `
+            <div class="order-item">
+              <img src="${item.image || 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=60&h=60&fit=crop'}" 
+                   alt="${item.name}" class="order-item-image"
+                   onerror="this.src='https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=60&h=60&fit=crop'">
+              <div class="order-item-info">
+                <div class="order-item-name">${item.name}</div>
+                <div class="order-item-price">₹${item.price?.toLocaleString()} × ${item.quantity}</div>
+              </div>
+            </div>
+          `).join('') || '';
+          
+          return `
+            <div class="order-card" style="animation: slideUp 0.3s ease ${index * 0.1}s both;" data-order-id="${order.id}">
               <div class="order-header">
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--primary)">
@@ -2805,34 +3147,80 @@
                 <button class="btn btn-ghost" onclick="copyOrderId('${order.id}')" style="font-size: 0.8rem;">
                   📋 Copy Order ID
                 </button>
-                ${order.status === 'pending' ? `
+                ${order.status === 'pending' || order.status === 'placed' ? `
                   <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger); font-size: 0.8rem;" onclick="cancelOrder('${order.id}')">
                     ❌ Cancel Order
                   </button>
                 ` : ''}
-                <button class="btn btn-primary" style="font-size: 0.8rem;" onclick="showOrderDetails('${order.id}')">
+                <button class="btn btn-primary" style="font-size: 0.8rem;" onclick="toggleOrderDetails('${order.id}')">
                   👁️ View Details
                 </button>
               </div>
+              
+              <!-- ✅ DETAILED ORDER TRACKING SECTION -->
+              <div class="order-details" id="details-${order.id}">
+                <h4 style="color: var(--primary); margin-bottom: 1rem;">📋 Order Tracking</h4>
+                
+                <!-- Status Progress Bar -->
+                <ul class="order-status-bar ${progressClass}">
+                  ${statusSteps.map((step, stepIndex) => `
+                    <li class="status-step ${stepIndex < currentStatusIndex ? 'completed' : stepIndex === currentStatusIndex ? 'active' : ''}">
+                      <span style="display: block; margin-top: 25px;">${step.icon}</span>
+                      <span style="display: block; margin-top: 5px; font-size: 0.8rem;">${step.name}</span>
+                    </li>
+                  `).join('')}
+                </ul>
+                
+                <!-- Status Timeline -->
+                <div style="margin: 1.5rem 0;">
+                  <h5 style="color: var(--primary); margin-bottom: 1rem;">📅 Order Timeline</h5>
+                  ${statusTimeline}
+                </div>
+                
+                <!-- Order Items -->
+                <div class="order-items-list">
+                  <h5 style="color: var(--primary); margin-bottom: 1rem;">🛍️ Order Items</h5>
+                  ${orderItemsList}
+                </div>
+                
+                <!-- Shipping Information -->
+                <div style="background: white; padding: 1rem; border-radius: var(--radius); border: 1px solid var(--border);">
+                  <h5 style="color: var(--primary); margin-bottom: 1rem;">🚚 Shipping Information</h5>
+                  <div><strong>Address:</strong> ${order.address || 'N/A'}</div>
+                  <div><strong>Phone:</strong> ${order.phone || 'N/A'}</div>
+                  <div><strong>Payment Method:</strong> ${order.paymentMethod?.toUpperCase() || 'N/A'}</div>
+                </div>
+              </div>
             </div>
-          `).join('')}
-        `;
-        
-      } catch (error) {
-        console.error('Error loading orders:', error);
-        container.innerHTML = `
-          <div class="alert alert-error">
-            <strong>❌ Error loading orders</strong><br>
-            Please try again later or contact support if the problem persists.
-          </div>
-        `;
-      }
+          `;
+        }).join('')}
+      `;
     }
 
-    // ✅ SHOW ORDER DETAILS FUNCTION
+    // ✅ TOGGLE ORDER DETAILS FUNCTION
+    window.toggleOrderDetails = (orderId) => {
+      const details = document.getElementById(`details-${orderId}`);
+      const button = document.querySelector(`[onclick="toggleOrderDetails('${orderId}')"]`);
+      
+      if (details.classList.contains('show')) {
+        details.classList.remove('show');
+        details.style.display = 'none';
+        button.innerHTML = '👁️ View Details';
+      } else {
+        details.classList.add('show');
+        details.style.display = 'block';
+        button.innerHTML = '👁️ Hide Details';
+        
+        // Smooth scroll to details
+        setTimeout(() => {
+          details.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      }
+    };
+
+    // ✅ SHOW ORDER DETAILS FUNCTION (Alternative)
     window.showOrderDetails = (orderId) => {
-      showAlert('Order details feature will be available soon!', 'warning');
-      // You can implement detailed order view here
+      toggleOrderDetails(orderId);
     };
 
     // Copy Order ID
