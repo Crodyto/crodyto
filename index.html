@@ -11,6 +11,9 @@
 <!-- ✅ QR Code Library for UPI Payment -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
+<!-- ✅ Font Awesome Icons for Attractive Profile -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
   :root {
     --primary: #3b82f6;
@@ -1073,47 +1076,333 @@
     padding: 1.5rem;
   }
   
-  /* ✅ ENHANCED PROFILE TABS WITH ICONS */
+  /* ✅ ATTRACTIVE ENHANCED PROFILE DESIGN */
+
+  /* Profile Header with Cover Photo */
+  .profile-header {
+    position: relative;
+    height: 180px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px 16px 0 0;
+    overflow: hidden;
+  }
+
+  .profile-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://images.unsplash.com/photo-1557683311-eac922347aa1?w=800&h=600&fit=crop&crop=center') center/cover;
+    opacity: 0.3;
+  }
+
+  .profile-header .cover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(147, 51, 234, 0.8));
+  }
+
+  /* Enhanced Profile Avatar */
+  .profile-avatar-container {
+    position: relative;
+    text-align: center;
+    margin-top: -80px;
+    margin-bottom: 20px;
+    z-index: 10;
+  }
+
+  .profile-avatar {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 6px solid white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .profile-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+  }
+
+  .profile-avatar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  .profile-avatar:hover::after {
+    transform: translateX(100%);
+  }
+
+  /* Profile Card Container */
+  .profile-card-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 2rem auto;
+    max-width: 500px;
+    position: relative;
+  }
+
+  /* Profile Info Section */
+  .profile-info-section {
+    padding: 0 2rem 2rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .profile-name {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .profile-title {
+    font-size: 1.2rem;
+    color: var(--gray);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .profile-bio {
+    font-size: 1rem;
+    color: var(--gray);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Profile Stats */
+  .profile-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    border-radius: 16px;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+  }
+
+  .profile-stat {
+    text-align: center;
+  }
+
+  .profile-stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    display: block;
+  }
+
+  .profile-stat-label {
+    font-size: 0.9rem;
+    color: var(--gray);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Social Links with Enhanced Design */
+  .profile-social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .profile-social-link {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .profile-social-link.facebook {
+    background: linear-gradient(135deg, #1877f2, #42a5f5);
+  }
+
+  .profile-social-link.twitter {
+    background: linear-gradient(135deg, #1da1f2, #0ea5e9);
+  }
+
+  .profile-social-link.linkedin {
+    background: linear-gradient(135deg, #0077b5, #0ea5e9);
+  }
+
+  .profile-social-link.instagram {
+    background: linear-gradient(135deg, #e4405f, #f59e0b);
+  }
+
+  .profile-social-link.github {
+    background: linear-gradient(135deg, #333, #6b7280);
+  }
+
+  .profile-social-link:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Profile Action Buttons */
+  .profile-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .profile-btn {
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 140px;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  .profile-btn-primary {
+    background: linear-gradient(135deg, var(--primary), #06b6d4);
+    color: white;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  }
+
+  .profile-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+  }
+
+  .profile-btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+  }
+
+  .profile-btn-outline:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  /* Enhanced Tab Design */
   .profile-tabs {
     display: flex;
     border-bottom: 1px solid var(--border);
     margin-bottom: 2rem;
     overflow-x: auto;
-    flex-wrap: nowrap;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-radius: 16px 16px 0 0;
+    padding: 0.5rem;
   }
-  
+
   .profile-tab {
     padding: 1rem 1.5rem;
-    background: none;
+    background: transparent;
     border: none;
     cursor: pointer;
     font-weight: 600;
     color: var(--gray);
-    border-bottom: 2px solid transparent;
+    border-radius: 12px;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
+    gap: 0.5rem;
     white-space: nowrap;
-    transition: all 0.3s ease;
     min-height: 44px;
   }
-  
+
   .profile-tab:hover {
-    color: var(--primary);
-    background: rgba(59, 130, 246, 0.05);
-  }
-  
-  .profile-tab.active {
-    color: var(--primary);
-    border-bottom-color: var(--primary);
     background: rgba(59, 130, 246, 0.1);
+    color: var(--primary);
   }
-  
-  .profile-tab svg {
-    opacity: 0.7;
+
+  .profile-tab.active {
+    background: linear-gradient(135deg, var(--primary), #06b6d4);
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
   }
-  
-  .profile-tab.active svg {
-    opacity: 1;
+
+  /* Enhanced Contact Form */
+  .profile-contact-form {
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+    margin-top: 2rem;
+  }
+
+  .profile-contact-form h4 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.3rem;
+  }
+
+  .profile-form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--dark);
+  }
+
+  .profile-form-input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    background: white;
+  }
+
+  .profile-form-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
   }
   
   .tab-content {
@@ -1452,7 +1741,43 @@
       padding: 10px 0;
     }
     
-    /* ✅ RESPONSIVE PROFILE TABS FOR MOBILE */
+    /* ✅ RESPONSIVE PROFILE DESIGN FOR MOBILE */
+    .profile-card-container {
+      margin: 1rem;
+      max-width: calc(100vw - 2rem);
+    }
+    
+    .profile-avatar {
+      width: 130px;
+      height: 130px;
+    }
+    
+    .profile-name {
+      font-size: 1.8rem;
+    }
+    
+    .profile-stats {
+      gap: 1rem;
+      padding: 1rem;
+    }
+    
+    .profile-stat-number {
+      font-size: 1.5rem;
+    }
+    
+    .profile-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .profile-btn {
+      min-width: 200px;
+    }
+    
+    .profile-info-section {
+      padding: 0 1rem 2rem;
+    }
+    
     .profile-tabs {
       justify-content: space-between;
       gap: 0.5rem;
@@ -1602,6 +1927,24 @@
     
     .profile-tab svg {
       display: none; /* Hide icons on very small screens */
+    }
+
+    .profile-header {
+      height: 150px;
+    }
+    
+    .profile-avatar-container {
+      margin-top: -65px;
+    }
+    
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+    }
+    
+    .profile-stats {
+      flex-direction: column;
+      gap: 1rem;
     }
   }
   
@@ -1798,62 +2141,145 @@
     </div>
   </div>
 
-  <!-- ✅ UPDATED PROFILE MODAL WITH "MY ORDERS" AND CANCELLATION HANDLING -->
+  <!-- ✅ UPDATED PROFILE MODAL WITH ATTRACTIVE DESIGN -->
   <div class="modal-backdrop" id="profileModal">
-    <div class="modal" style="max-width: 800px;">
+    <div class="modal" style="max-width: 900px;">
       <div class="modal-header">
-        <h3 class="modal-title">My Profile</h3>
+        <h3 class="modal-title">✨ My Profile</h3>
         <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
       </div>
       <div class="modal-body">
         <div class="profile-tabs">
           <button class="profile-tab active" onclick="switchTab('profile')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-            </svg>
+            <i class="fas fa-user" style="margin-right: 8px;"></i>
             Profile
           </button>
           <button class="profile-tab" onclick="switchTab('orders')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
-              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-            </svg>
+            <i class="fas fa-box" style="margin-right: 8px;"></i>
             My Orders
           </button>
           <button class="profile-tab" onclick="switchTab('wishlist')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
+            <i class="fas fa-heart" style="margin-right: 8px;"></i>
             Wishlist
           </button>
         </div>
         
+        <!-- ✅ ENHANCED ATTRACTIVE PROFILE TAB -->
         <div class="tab-content active" id="profileTab">
+          <!-- Enhanced Profile Card -->
+          <div class="profile-card-container">
+            <!-- Profile Header with Cover -->
+            <div class="profile-header">
+              <div class="cover-overlay"></div>
+            </div>
+            
+            <!-- Profile Avatar -->
+            <div class="profile-avatar-container">
+              <img src="" alt="Profile" class="profile-avatar" id="profileAvatarMain">
+            </div>
+            
+            <!-- Profile Info -->
+            <div class="profile-info-section">
+              <h2 class="profile-name" id="displayName">John Doe</h2>
+              <p class="profile-title">🌟 Crodyto Customer</p>
+              <p class="profile-bio">Welcome to your personalized shopping experience! Manage your orders, wishlist, and profile settings all in one place.</p>
+              
+              <!-- Profile Stats -->
+              <div class="profile-stats">
+                <div class="profile-stat">
+                  <span class="profile-stat-number" id="orderCount">0</span>
+                  <span class="profile-stat-label">Orders</span>
+                </div>
+                <div class="profile-stat">
+                  <span class="profile-stat-number" id="wishlistCount">0</span>
+                  <span class="profile-stat-label">Wishlist</span>
+                </div>
+                <div class="profile-stat">
+                  <span class="profile-stat-number">⭐</span>
+                  <span class="profile-stat-label">VIP</span>
+                </div>
+              </div>
+              
+              <!-- Social Links -->
+              <div class="profile-social-links">
+                <a href="#" class="profile-social-link facebook" title="Facebook">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="profile-social-link twitter" title="Twitter">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="profile-social-link linkedin" title="LinkedIn">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="profile-social-link instagram" title="Instagram">
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="profile-social-link github" title="GitHub">
+                  <i class="fab fa-github"></i>
+                </a>
+              </div>
+              
+              <!-- Profile Actions -->
+              <div class="profile-actions">
+                <button class="profile-btn profile-btn-primary" onclick="showContactForm()">
+                  <i class="fas fa-envelope"></i>
+                  Contact Support
+                </button>
+                <button class="profile-btn profile-btn-outline" onclick="downloadProfile()">
+                  <i class="fas fa-download"></i>
+                  Export Data
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Enhanced Profile Form -->
           <form id="profileForm">
-            <div class="form-group">
-              <label class="form-label">Full Name</label>
-              <input type="text" class="form-input" id="profileName">
+            <div class="profile-contact-form">
+              <h4>📝 Edit Profile Information</h4>
+              
+              <div class="profile-form-group">
+                <label class="profile-form-label">Full Name</label>
+                <input type="text" class="profile-form-input" id="profileName">
+              </div>
+              
+              <div class="profile-form-group">
+                <label class="profile-form-label">Email Address</label>
+                <input type="email" class="profile-form-input" id="profileEmail" readonly>
+              </div>
+              
+              <div class="profile-form-group">
+                <label class="profile-form-label">Phone Number</label>
+                <input type="tel" class="profile-form-input" id="profilePhone" placeholder="+91 9876543210">
+              </div>
+              
+              <div class="profile-form-group">
+                <label class="profile-form-label">Location</label>
+                <input type="text" class="profile-form-input" id="profileLocation" placeholder="Mumbai, India">
+              </div>
+              
+              <div class="profile-form-group">
+                <label class="profile-form-label">Bio</label>
+                <textarea class="profile-form-input" id="profileBio" rows="3" placeholder="Tell us about yourself..."></textarea>
+              </div>
+              
+              <div class="profile-form-group">
+                <label class="profile-form-label">Shipping Address</label>
+                <textarea class="profile-form-input" id="profileAddress" rows="2" placeholder="Enter your complete address"></textarea>
+              </div>
+              
+              <button type="submit" class="profile-btn profile-btn-primary" style="width: 100%;">
+                <i class="fas fa-save"></i>
+                Update Profile
+              </button>
             </div>
-            
-            <div class="form-group">
-              <label class="form-label">Email</label>
-              <input type="email" class="form-input" id="profileEmail" readonly>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Phone</label>
-              <input type="tel" class="form-input" id="profilePhone">
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Address</label>
-              <textarea class="form-input form-textarea" id="profileAddress"></textarea>
-            </div>
-            
-            <button type="submit" class="btn btn-primary">Update Profile</button>
           </form>
           
-          <div class="mt-4" style="padding-top: 1.5rem; border-top: 1px solid var(--border);">
-            <button class="btn btn-outline" onclick="signOut()">Sign Out</button>
+          <div class="mt-4" style="padding-top: 1.5rem; border-top: 1px solid var(--border); text-align: center;">
+            <button class="profile-btn profile-btn-outline" onclick="signOut()">
+              <i class="fas fa-sign-out-alt"></i>
+              Sign Out
+            </button>
           </div>
         </div>
         
@@ -2338,7 +2764,8 @@
       
       // Add active class to new slide and dot
       slides[currentSlideIndex].classList.add('active');
-      if (dots[currentSlideIndex]) dots[currentSlideIndex].classList.add('active');
+      if (dots[currentSlideIndex])
+      dots[currentSlideIndex].classList.add('active');
       
       // Restart auto-slide
       restartAutoSlide();
@@ -2444,7 +2871,7 @@
       const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(name)}&am=${encodeURIComponent(amount)}&tn=${encodeURIComponent(note)}&cu=INR`;
       
       // Generate QR Code for UPI payment
-          generateUPIQRCode(upiUrl, amount, upiId, name);
+      generateUPIQRCode(upiUrl, amount, upiId, name);
       
       // Try to open UPI app for mobile users
       if (isMobile()) {
@@ -2596,6 +3023,9 @@
         setTimeout(() => {
           showAlert(paymentMessages[paymentMethod], 'success');
         }, 1000);
+        
+        // Update profile stats
+        updateProfileStats();
         
       } catch (error) {
         console.error('Error placing order:', error);
@@ -2760,6 +3190,55 @@
       } catch (e) {}
     }
 
+    // ✅ ENHANCED PROFILE FUNCTIONS
+
+    // Update profile display with user data
+    function updateProfileDisplay() {
+      if (currentUser) {
+        const displayName = document.getElementById('displayName');
+        const profileAvatar = document.getElementById('profileAvatarMain');
+        
+        if (displayName) displayName.textContent = currentUser.displayName || currentUser.email;
+        if (profileAvatar) {
+          profileAvatar.src = currentUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.displayName || currentUser.email)}&background=3b82f6&color=fff&size=160`;
+        }
+      }
+    }
+
+    // Update profile stats
+    function updateProfileStats() {
+      if (currentUser) {
+        // Update order count
+        const orderCountEl = document.getElementById('orderCount');
+        if (orderCountEl) {
+          // Get user orders count from Firebase or localStorage
+          getDocs(query(collection(db, 'orders'), where('userId', '==', currentUser.uid)))
+            .then(snapshot => {
+              orderCountEl.textContent = snapshot.size;
+            })
+            .catch(() => {
+              orderCountEl.textContent = '0';
+            });
+        }
+
+        // Update wishlist count
+        const wishlistCountEl = document.getElementById('wishlistCount');
+        if (wishlistCountEl) {
+          wishlistCountEl.textContent = wishlist.length;
+        }
+      }
+    }
+
+    // Show contact form
+    window.showContactForm = () => {
+      showAlert('📧 Contact support feature coming soon! For now, you can reach us at support@crodyto.com', 'success');
+    };
+
+    // Download profile/CV
+    window.downloadProfile = () => {
+      showAlert('📥 Export data feature coming soon! Your data will be available for download.', 'success');
+    };
+
     // Initialize App
     document.addEventListener('DOMContentLoaded', () => {
       loadProducts();
@@ -2891,6 +3370,7 @@
 
       localStorage.setItem('wishlist', JSON.stringify(wishlist));
       updateWishlistUI();
+      updateProfileStats();
       renderWishlist();
     };
 
@@ -3089,6 +3569,7 @@
       updateAuthUI();
       if (user) {
         loadUserOrders();
+        updateProfileStats();
       }
     });
 
@@ -3106,6 +3587,9 @@
         
         document.getElementById('profileName').value = currentUser.displayName || '';
         document.getElementById('profileEmail').value = currentUser.email || '';
+        
+        // Update profile display
+        updateProfileDisplay();
       } else {
         loginBtn.style.display = 'inline-flex';
         userMenu.classList.add('hidden');
@@ -3178,6 +3662,7 @@
         await updateProfile(currentUser, { displayName: name });
         showAlert('Profile updated successfully!', 'success');
         updateAuthUI();
+        updateProfileDisplay();
       } catch (error) {
         showAlert(error.message, 'error');
       }
@@ -3198,6 +3683,8 @@
         loadUserOrders();
       } else if (tabName === 'wishlist') {
         renderWishlist();
+      } else if (tabName === 'profile') {
+        updateProfileStats();
       }
     };
 
